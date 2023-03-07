@@ -3,8 +3,10 @@ import {
   addToCartService,
   clearCartService,
   deleteCartItemService,
+  findCartProductService,
   findProductService,
   isItemInCartService,
+  updateCartService,
   viewCartService,
 } from "../services";
 import { calculateCartTotal, isValidUuid } from "../utils";
@@ -148,6 +150,47 @@ export const clearCart = async (req: Request, res: Response) => {
       data: clearedCart,
       message: "Cart cleared successfully!",
       status: 201,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        error: error.message,
+        message: "Error clearing items in cart",
+        status: 500,
+        success: false,
+      });
+    }
+  }
+};
+
+// Buyer update a cart
+export const updateCartProduct = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const productId = req.params.id;
+
+    const cartProductToUpdate = await findCartProductService(productId, userId);
+    const parsedCartProductToUpdate = JSON.parse(
+      JSON.stringify(cartProductToUpdate),
+    );
+
+    for (const productCriteria in req.body) {
+      parsedCartProductToUpdate[productCriteria] = req.body[productCriteria];
+    }
+
+    await updateCartService(productId, userId, parsedCartProductToUpdate);
+
+    // Calculate new total
+    const itemsInCart = await viewCartService(userId);
+    const cartTotal = await calculateCartTotal(itemsInCart);
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data: {
+        total: cartTotal,
+        items: JSON.parse(JSON.stringify(itemsInCart)),
+      },
     });
   } catch (error) {
     if (error instanceof Error) {

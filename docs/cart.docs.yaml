@@ -57,6 +57,35 @@ paths:
       responses:
         200:
           description: Success
+  # Update a cart
+  /api/v1/cart/update/{productId}:
+    patch:
+      security: [{ jwt: [] }]
+      tags: [Cart Routes]
+      summary: Buyer update cart product quantity
+      parameters:
+        - name: productId
+          in: path
+          description: The Id of the cart item you want to update
+          schema:
+            type: string
+            minimum: 15
+      requestBody:
+        description: Please fill the field(s) you want to update
+        required: true
+        content:
+          application/json:
+            schema:
+                CartProduct:
+                  type: object
+                properties:
+                  quantity:
+                    type: number
+                    description: quantity of the product.
+      responses:
+        200:
+          description: A list of cart product and new cart total.
+
 
 # schemas
 components:

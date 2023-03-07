@@ -192,4 +192,44 @@ describe("🛒 📦 CART UNIT", () => {
    * 🛑 end clear cart *
    **********************************************
    */
+  /*
+   **********************************************
+   *  🟩 Buyer update cart *
+   **********************************************
+   */
+  describe("PATCH /api/v1/cart/update/{productId}", () => {
+    it("should return 200 if product in cart updated successfully", async () => {
+      /**
+       * I used this method of first adding item in cart because
+       * the cart clearing test is run before updating the cart product test.
+       */
+
+      // prepare a cart item to send to the cart endpoint
+      const cartItem = {
+        productId: productId,
+        quantity: 2,
+      };
+
+      //   send the cart item to the cart endpoint
+      const res = await request(app)
+        .post("/api/v1/cart/add")
+        .set("Authorization", "Bearer " + token)
+        .send(cartItem);
+      expect(res.status).toEqual(201);
+
+      // update product start here
+      const resOfUpdate = await request(app)
+        .patch(`/api/v1/cart/update/${productId}`)
+        .set("Authorization", "Bearer " + token)
+        .send({
+          quantity: 55,
+        });
+      expect(resOfUpdate.status).toEqual(200);
+    });
+  });
+  /*
+   **********************************************
+   * 🛑 End Of Buyer update cart *
+   **********************************************
+   */
 });

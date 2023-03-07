@@ -16,5 +16,8 @@ export const ProductSchema = {
       productId: Joi.string().required(),
       quantity: Joi.number(),
     }),
+    updateCart: Joi.object<CartAttributes>({
+      quantity: Joi.number().required(),
+    }),
   },
 };

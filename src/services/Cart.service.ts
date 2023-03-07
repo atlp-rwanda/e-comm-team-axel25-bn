@@ -65,3 +65,25 @@ export const clearCartService = async (userId: string) => {
   });
   return clearCartRequest;
 };
+
+export const findCartProductService = async (
+  productId: string,
+  userId: string,
+) => {
+  const cartProductToUpdate = await Cart.findOne({
+    where: { userId, productId },
+  });
+  return cartProductToUpdate;
+};
+
+export const updateCartService = async (
+  productId: string,
+  userId: string,
+  parsedDataToUpdate: CartAttributes,
+) => {
+  const updatedCartProduct = await Cart.update(parsedDataToUpdate, {
+    where: { productId, userId },
+    returning: true,
+  });
+  return updatedCartProduct;
+};
