@@ -1,0 +1,123 @@
+paths:
+  # Set role
+  /api/v1/role/update/{userId}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Admin set a role to a particular user
+      tags: [Role and Permissions]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Provide userId you want to give role
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - role
+              properties:
+                role:
+                  type: string
+                  example: "Seller"                  
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: X Not Found
+
+  # Set role and permissions in DB
+  /api/v1/role/set:
+    post:
+      security: [{ jwt: [] }]
+      summary: Admin set and permissions
+      tags: [Role and Permissions]
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleAndPermissions"
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: X Not Found
+  
+  # Add permissions to existing role
+  /api/v1/role/permissions/add/{role}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Add list of permissions to existing role
+      tags: [Role and Permissions]
+      parameters:
+        - name: role
+          in: path
+          type: string
+          required: true
+          description: Provide role you want to add new permissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              example: ["Add a product", "Soft delete product"]
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: X Not Found
+
+  # Remove permissions to existing role
+  /api/v1/role/permissions/remove/{role}:
+    delete:
+      security: [{ jwt: [] }]
+      summary: Remove list of permissions to existing role
+      tags: [Role and Permissions]
+      parameters:
+        - name: role
+          in: path
+          type: string
+          required: true
+          description: Provide role you want to remove new permissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              example: ["Add a product", "Soft delete product"]
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: X Not Found
+
+# schemas
+components:
+  schemas:
+    RoleAndPermissions:
+      required:
+        - role
+        - premissions
+      properties:
+        role:
+          type: string
+          example: "Seller"
+        permissions:
+          type: array
+          example: ["Update product","etc"]

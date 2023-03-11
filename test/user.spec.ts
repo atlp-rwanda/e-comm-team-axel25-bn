@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../src/app";
 import { sequelize } from "../src/database/models";
+// import { sequelize } from "../src/database/models";
 
 describe("🧑‍🤝‍🧑 USERS UNIT", () => {
   afterAll(async () => {

@@ -90,6 +90,7 @@ export const isAdmin = async (
     }
   } catch (error) {
     if (error instanceof Error) {
+      console.log("I s runnign !!");
       res.status(500).json({
         status: 500,
         success: false,
