@@ -18,7 +18,7 @@ describe("🧑‍🤝‍🧑 USERS UNIT", () => {
     token = loginResponse.body.data;
   });
   afterAll(async () => {
-    await sequelize.truncate({ cascade: true }); // deletes all data from all tables
+    // await sequelize.truncate({ cascade: true }); // deletes all data from all tables
     await sequelize.close(); // closes the connection to the database
   });
 
