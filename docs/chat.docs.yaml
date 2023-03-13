@@ -1,0 +1,13 @@
+paths:
+  /api/v1/chat:
+    get:
+      security: [{ jwt: [] }]
+      tags: [Chats]
+      summary: get all public messages from chat
+      responses:
+        200:
+          description: get chat messages
+        401:
+          description: not authorized
+        500:
+          description: server error

@@ -7,3 +7,4 @@ export * from "./LoggedInUsers.interface";
 export * from "./Cart.interface";
 export * from "./Wish.interface";
 export * from "./Order.interface";
+export * from "./Chat.interface";

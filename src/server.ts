@@ -4,6 +4,20 @@ import swaggerDocs from "../docs/swagger";
 import { sequelize } from "./database/models";
 const PORT = process.env.PORT;
 
+import http from "node:http";
+import { Server } from "socket.io";
+import { socketAuth } from "./middleware/auth/socketAuth.middleware";
+import { chat } from "./controllers/Chat.controller";
+
+const server = http.createServer(app);
+export const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+  },
+});
+
+io.use(socketAuth).on("connection", chat);
+
 // Connect to the db
 (async () => {
   try {
@@ -25,7 +39,7 @@ const PORT = process.env.PORT;
 
 const start = () => {
   try {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       // if we are in development mode, we want the server to run on localhost
       if (process.env.NODE_ENV === "development") {
         console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);
