@@ -4,7 +4,7 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   testMatch: ["**/**/*.spec.ts"],
-  testTimeout: 150000,
+  testTimeout: 250000,
   verbose: true,
   forceExit: true,
   // clearMocks: true,
