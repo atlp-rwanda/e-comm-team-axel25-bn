@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import * as JWT from "jsonwebtoken";
 import User from "../database/models/User.model";
 import { verifyToken } from "../utils";
+import { Status } from "../interfaces";
 
 export const protectRoute = async (
   req: Request,
@@ -9,7 +9,6 @@ export const protectRoute = async (
   next: NextFunction,
 ) => {
   let token;
-  const secret = process.env.SECRET_TOKEN as string;
   if (
     !(
       req.headers.authorization &&
@@ -31,6 +30,9 @@ export const protectRoute = async (
     const user = await User.findByPk(decodedData.payload.toString());
 
     if (!user) throw new Error("user not found");
+    if (user.status === Status.Disabled) {
+      throw new Error("this account was disabled");
+    }
     req.user = user.dataValues;
 
     const origins = [

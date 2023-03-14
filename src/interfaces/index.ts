@@ -8,3 +8,4 @@ export * from "./Cart.interface";
 export * from "./Wish.interface";
 export * from "./Order.interface";
 export * from "./Notification.interface";
+export * from "./DisabledAccount.interface";

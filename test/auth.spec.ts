@@ -4,7 +4,7 @@ import { sequelize } from "../src/database/models";
 
 describe(" 🦺 🛂 AUTH UNIT", () => {
   afterAll(async () => {
-    await sequelize.truncate({ cascade: true }); // deletes all data from all tables
+    // await sequelize.truncate({ cascade: true }); // deletes all data from all tables
     await sequelize.close(); // closes the connection to the database
   });
   /*

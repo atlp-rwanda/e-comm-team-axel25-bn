@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../../utils";
 import { findOneUserByIdService } from "../../services";
+import { Status } from "../../interfaces";
 
 export const isAuth = async (
   req: Request,
@@ -25,6 +26,9 @@ export const isAuth = async (
           success: false,
           message: "Unauthorized access.",
         });
+      }
+      if (currentUser.status === Status.Disabled) {
+        throw new Error("this account was disabled");
       }
       req.user = currentUser.dataValues; // is this right koko?
       next();

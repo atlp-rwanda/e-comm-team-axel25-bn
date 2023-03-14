@@ -1,0 +1,37 @@
+paths:
+  # login user
+  /api/v1/accounts/disable:
+    post:
+      security: [{ jwt: [] }]
+      tags: [Disable Account Routes]
+      summary: Logs in a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DisableAccount"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request. User ID must be an integer and larger than 0.
+        "401":
+          description: Authorization information is missing or invalid.
+
+# schemas
+components:
+  schemas:
+    DisableAccount:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: ab-adhdh-ddhd-a
+        reason:
+          type: string
+          example: fraud
+      # all properties are required
+      required:
+        - userId
+        - reason
