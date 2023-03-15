@@ -48,7 +48,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       expect(res.status).toEqual(201);
       expect(res.body.message).toEqual("Order created");
     });
-    it("should return 500 if no cart availabe", async () => {
+    it("should return 400 if no cart availabe", async () => {
       // create the order
       const currentUser = {
         email: "seller@gmail.com",
@@ -61,8 +61,8 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       const res = await request(app)
         .post("/api/v1/order/")
         .set("Authorization", "Bearer " + Sellertoken);
-      // expect(res.body.message).toEqual("No product available To make order");
-      expect(res.status).toEqual(500);
+      expect(res.body.message).toEqual("No product available To make order");
+      expect(res.status).toEqual(400);
     });
   });
 

@@ -6,11 +6,11 @@ import { Orderinterface } from "../interfaces";
 // To create order
 export const createOrderService = async (
   userId: string,
-  items: Orderinterface,
+  items: Orderinterface[],
 ) => {
   const order = await Order.create({
     userId,
-    items: JSON.stringify(items),
+    items: items,
   });
   return order;
 };
@@ -85,8 +85,8 @@ export const getCartItemsService = async (userId: string) => {
     },
   });
   const items = cartItems.map((item) => ({
-    quantity: item.dataValues.quantity,
-    product: item.dataValues.Product,
+    QUANTITY: item.dataValues.quantity,
+    PRODUCT: item.dataValues.Product,
   }));
   return items;
 };

@@ -124,7 +124,7 @@ export const deleteOneItemFromproduct = async (req: Request, res: Response) => {
           title: "Product Deletion",
           message: `Product "${productName}" has been deleted successfully`,
           email: userEmail,
-          action: "product create",
+          action: "product delete",
           userId: sellerId,
           // "*/30 * * * * *",
         });

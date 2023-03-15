@@ -13,24 +13,20 @@ import { Orderinterface } from "../interfaces";
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const items = await getCartItemsService(userId);
-    if (!items) {
+    const items: Orderinterface[] = await getCartItemsService(userId);
+    if (!items[0]) {
       return res.status(400).json({
         message: "No product available To make order",
         status: 400,
         success: false,
       });
     }
-    const data: Orderinterface = {
-      QUANTITY: items[0].quantity,
-      PRODUCT: items[0].product,
-    };
-    const order = await createOrderService(userId, data);
+    const order = await createOrderService(userId, items);
     res.status(201).json({
-      data: order,
       message: "Order created",
       status: 201,
       success: true,
+      data: order,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -49,9 +45,9 @@ export const ViewOrders = async (req: Request, res: Response) => {
     const userId = req.user.id;
     const orders = await getOrdersByUserService(userId);
     res.status(200).send({
-      data: orders,
       status: 200,
       success: true,
+      data: orders,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -100,9 +96,9 @@ export const getOrderStatus = async (req: Request, res: Response) => {
 
     const orderStatus = await getOrderStatusService(userId, orderId);
     res.status(200).json({
-      data: orderStatus,
       status: 200,
       success: true,
+      data: orderStatus,
     });
   } catch (err) {
     if (err instanceof Error) {
@@ -151,9 +147,9 @@ export const AdminGetAllOrders = async (req: Request, res: Response) => {
   try {
     const orders = await getAllOrder();
     res.status(200).send({
-      data: orders,
       status: 200,
       success: true,
+      data: orders,
     });
   } catch (error) {
     if (error instanceof Error) {
